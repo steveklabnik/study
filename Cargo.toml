@@ -3,3 +3,6 @@
 name = "algorithms"
 version = "0.0.1"
 authors = [ "Jonathan Dahan <hi@jonathan.is>" ]
+
+[dependencies]
+rand = "0.3"
