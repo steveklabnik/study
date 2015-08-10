@@ -16,9 +16,11 @@ fn test_merge_sort() {
   for times in 1..99 {
     unsorted.push(rng.gen::<usize>());
   }
+  let mut to_sorted = unsorted.clone();
   let sorted = merge_sort(unsorted);
+  to_sorted.sort();
 
-  assert_eq!(unsorted.sort(), sorted);
+  assert_eq!(to_sorted, sorted);
 }
 
 #[test]
