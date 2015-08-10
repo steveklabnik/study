@@ -9,16 +9,46 @@ fn trivial_sort() {
 }
 
 fn selection_sort<T: Ord+Clone>(numbers: Vec<T>) -> Vec<T> {
-  let mut sorted: Vec<T> = numbers.clone();
-  for i in 1..sorted.len() {
+  let mut numbers: Vec<T> = numbers.clone();
+  for i in 1..numbers.len() {
       let mut min = i;
-      for j in i+1..sorted.len() {
-          if sorted[j] < sorted[min] {
+      for j in i+1..numbers.len() {
+          if numbers[j] < numbers[min] {
               min = j;
           }
       }
 
-    sorted.swap(min, i);
+    numbers.swap(min, i);
   }
-  return sorted;
+  return numbers;
+}
+
+fn merge_sort<T: Ord+Clone>(mut arr: Vec<T>) -> Vec<T> {
+  if arr.len()<2 { return arr };
+  if arr.len()==2 {
+      if(arr[0] > arr[1]){ arr.swap(0,1); }
+      return arr;
+  }
+
+  let (left, right) = arr.split_at(arr.len()/2);
+  return merge(
+    merge_sort(left.to_vec()),
+    merge_sort(right.to_vec())
+  );
+}
+
+fn merge<T: Ord>(left: Vec<T>, right: Vec<T>) -> Vec<T>{
+  let mut merged = vec![];
+  let mut j=0;
+  let mut k=0;
+  while merged.len() < left.len()+right.len() {
+    if(left[j] < right[k]){
+        merged.push(left[j]);
+        j=j+1;
+    } else {
+        merged.push(right[k]);
+        k=k+1;
+    }
+  }
+  return merged;
 }
