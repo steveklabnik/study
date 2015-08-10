@@ -2,21 +2,18 @@ extern crate rand;
 extern crate num;
 use rand::Rng;
 use num::traits::Bounded;
-use std::fmt::Debug;
 
-fn main() { 
-   let unsorted = vec![ 5, 15, 20, 13 ];
-   println!("{:?}", unsorted);
-   let sorted = merge_sort(unsorted);
-   println!("{:?}", sorted);
+#[cfg_attr(test, allow(dead_code))]
+fn main() {
    return;
 }
 
 #[test]
+#[cfg_attr(build, allow(dead_code))]
 fn test_merge_sort() {
   let mut unsorted: Vec<usize> = vec![];
   let mut rng = rand::thread_rng();
-  for times in 1..99 {
+  for _ in 1..99 {
     unsorted.push(rng.gen::<usize>());
   }
   let mut to_sorted = unsorted.clone();
@@ -27,6 +24,7 @@ fn test_merge_sort() {
 }
 
 #[test]
+#[cfg_attr(build, allow(dead_code))]
 fn test_selection_sort() {
   let unsorted = vec![ 5, 15, 20, 13 ];
   let sorted = selection_sort(unsorted);
@@ -34,6 +32,7 @@ fn test_selection_sort() {
   assert_eq!(sorted, [5, 13, 15, 20]);
 }
 
+#[cfg_attr(test, allow(dead_code))]
 fn selection_sort<T: Ord+Clone>(numbers: Vec<T>) -> Vec<T> {
   let mut numbers: Vec<T> = numbers.clone();
   for i in 1..numbers.len() {
@@ -49,6 +48,7 @@ fn selection_sort<T: Ord+Clone>(numbers: Vec<T>) -> Vec<T> {
   return numbers;
 }
 
+#[cfg_attr(build, allow(dead_code))]
 fn merge_sort<T: Ord+Bounded+Clone>(mut arr: Vec<T>) -> Vec<T> {
   if arr.len()<2 { 
       return arr };
@@ -66,6 +66,7 @@ fn merge_sort<T: Ord+Bounded+Clone>(mut arr: Vec<T>) -> Vec<T> {
   );
 }
 
+#[cfg_attr(build, allow(dead_code))]
 fn merge<T: Ord+Clone+Bounded>(left: Vec<T>, right: Vec<T>) -> Vec<T>{
   let mut merged = vec![];
   let mut left = left.clone();
