@@ -1,6 +1,5 @@
 extern crate rand;
 extern crate num;
-use rand::Rng;
 use num::traits::Bounded;
 
 #[cfg_attr(test, allow(dead_code))]
@@ -8,31 +7,6 @@ fn main() {
    return;
 }
 
-#[test]
-#[cfg_attr(build, allow(dead_code))]
-fn test_merge_sort() {
-  let mut unsorted: Vec<usize> = vec![];
-  let mut rng = rand::thread_rng();
-  for _ in 1..99 {
-    unsorted.push(rng.gen::<usize>());
-  }
-  let mut to_sorted = unsorted.clone();
-  let sorted = merge_sort(unsorted);
-  to_sorted.sort();
-
-  assert_eq!(to_sorted, sorted);
-}
-
-#[test]
-#[cfg_attr(build, allow(dead_code))]
-fn test_selection_sort() {
-  let unsorted = vec![ 5, 15, 20, 13 ];
-  let sorted = selection_sort(unsorted);
-
-  assert_eq!(sorted, [5, 13, 15, 20]);
-}
-
-#[cfg_attr(test, allow(dead_code))]
 fn selection_sort<T: Ord+Clone>(numbers: Vec<T>) -> Vec<T> {
   let mut numbers: Vec<T> = numbers.clone();
   for i in 1..numbers.len() {
@@ -48,7 +22,6 @@ fn selection_sort<T: Ord+Clone>(numbers: Vec<T>) -> Vec<T> {
   return numbers;
 }
 
-#[cfg_attr(build, allow(dead_code))]
 fn merge_sort<T: Ord+Bounded+Clone>(mut arr: Vec<T>) -> Vec<T> {
   if arr.len()<2 { 
       return arr };
@@ -66,7 +39,6 @@ fn merge_sort<T: Ord+Bounded+Clone>(mut arr: Vec<T>) -> Vec<T> {
   );
 }
 
-#[cfg_attr(build, allow(dead_code))]
 fn merge<T: Ord+Clone+Bounded>(left: Vec<T>, right: Vec<T>) -> Vec<T>{
   let mut merged = vec![];
   let mut left = left.clone();
@@ -85,4 +57,33 @@ fn merge<T: Ord+Clone+Bounded>(left: Vec<T>, right: Vec<T>) -> Vec<T>{
     }
   }
   return merged;
+}
+
+#[cfg(test)]
+mod tests {
+  use super::merge_sort;
+  use super::selection_sort;
+  use rand::{self, Rng};
+
+  #[test]
+  fn merge() {
+    let mut unsorted: Vec<usize> = vec![];
+    let mut rng = rand::thread_rng();
+    for _ in 1..99 {
+      unsorted.push(rng.gen::<usize>());
+    }
+    let mut to_sorted = unsorted.clone();
+    let sorted = merge_sort(unsorted);
+    to_sorted.sort();
+  
+    assert_eq!(to_sorted, sorted);
+  }
+  
+  #[test]
+  fn selection() {
+    let unsorted = vec![ 5, 15, 20, 13 ];
+    let sorted = selection_sort(unsorted);
+  
+    assert_eq!(sorted, [5, 13, 15, 20]);
+  }
 }
