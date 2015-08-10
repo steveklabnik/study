@@ -1,5 +1,8 @@
 extern crate rand;
+extern crate num;
 use rand::Rng;
+use num::traits::Bounded;
+use std::fmt::Debug;
 
 fn main() { 
    let unsorted = vec![ 5, 15, 20, 13 ];
@@ -46,7 +49,7 @@ fn selection_sort<T: Ord+Clone>(numbers: Vec<T>) -> Vec<T> {
   return numbers;
 }
 
-fn merge_sort(mut arr: Vec<usize>) -> Vec<usize> {
+fn merge_sort<T: Ord+Bounded+Clone>(mut arr: Vec<T>) -> Vec<T> {
   if arr.len()<2 { 
       return arr };
   if arr.len()==2 {
@@ -63,22 +66,21 @@ fn merge_sort(mut arr: Vec<usize>) -> Vec<usize> {
   );
 }
 
-fn merge(left: Vec<usize>, right: Vec<usize>) -> Vec<usize>{
+fn merge<T: Ord+Clone+Bounded>(left: Vec<T>, right: Vec<T>) -> Vec<T>{
   let mut merged = vec![];
   let mut left = left.clone();
-  left.push(std::usize::MAX);
+  left.push(Bounded::max_value());
   let mut right = right.clone();
-  right.push(std::usize::MAX);
+  right.push(Bounded::max_value());
   let mut l=0;
   let mut r=0;
   while merged.len() < left.len()-1+right.len()-1 {
-    println!("merged is {:?}", merged);
     if left[l] < right[r] {
-        merged.push(left[l].clone());
-        l=l+1;
+      merged.push(left[l].clone());
+      l=l+1;
     } else {
-        merged.push(right[r].clone());
-        r=r+1;
+      merged.push(right[r].clone());
+      r=r+1;
     }
   }
   return merged;

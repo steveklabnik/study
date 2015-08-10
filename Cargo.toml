@@ -6,3 +6,4 @@ authors = [ "Jonathan Dahan <hi@jonathan.is>" ]
 
 [dependencies]
 rand = "0.3"
+num = "*"
